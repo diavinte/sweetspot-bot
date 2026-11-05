@@ -1,9 +1,9 @@
-name: SweetSpot Alerts Bot
+name: SweetSpot Deals Radar
 
 on:
   schedule:
-    - cron: '0 */3 * * *'
-  workflow_dispatch:
+    - cron: '0 * * * *' # Executa no minuto 0 de cada hora (ex: 14:00, 15:00, 16:00)
+  workflow_dispatch: # Permite disparar manualmente no botão "Run workflow"
 
 jobs:
   run-bot:
