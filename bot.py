@@ -1,10 +1,14 @@
 import os
 import re
+<<<<<<< HEAD
 import time
+=======
+>>>>>>> d2200f5 (Corrige inicialização da API no SweetSpot bot)
 import requests
 from google import genai
 
 # ==========================================================
+<<<<<<< HEAD
 # 1. CONFIGURAÇÕES E CHAVES (Insira sua tag da Amazon US)
 # ==========================================================
 AMAZON_US_TAG = "sweetspotaler-20"  # Substitua pela sua tag oficial da Amazon Associates US
@@ -12,6 +16,20 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 # Inicializa o client oficial do Gemini
+=======
+# 1. CONFIGURAÇÕES E CHAVES
+# ==========================================================
+AMAZON_US_TAG = "sweetspotaler-20"  
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+# TRAVA DE SEGURANÇA: Evita o erro silencioso no GitHub Actions
+if not GEMINI_API_KEY:
+    print("Erro: A chave GEMINI_API_KEY não foi encontrada pelo GitHub Actions!")
+    exit(1)
+
+# Inicializa o client oficial do Gemini apenas uma vez
+>>>>>>> d2200f5 (Corrige inicialização da API no SweetSpot bot)
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 # ==========================================================
@@ -59,9 +77,15 @@ def generate_court_insider_copy(product_title: str, price_info: str, category: s
     Category: {category}
 
     Rules:
+<<<<<<< HEAD
     - NO generic sales hype ("Amazing deal!", "Don't miss out!").
     - Use authentic court terminology (e.g., raw carbon grit, sweet spot, swing weight, saving shoulders/rotator cuff, or bulk court stocking).
     - Format: 
+=======
+- NO generic sales hype ("Amazing deal!", "Don't miss out!").
+- Use authentic court terminology (e.g., raw carbon grit, sweet spot, swing weight, saving shoulders/rotator cuff, or bulk court stocking).
+- Format: 
+>>>>>>> d2200f5 (Corrige inicialização da API no SweetSpot bot)
       1️⃣ Short headline with an emoji.
       2️⃣ One sentence on WHY this gear matters on court.
       3️⃣ One line highlighting the price drop / historic low.
@@ -73,7 +97,11 @@ def generate_court_insider_copy(product_title: str, price_info: str, category: s
     return response.text.strip()
 
 # ==========================================================
+<<<<<<< HEAD
 # 5. MONITOR DE SINAIS (Exemplo via Reddit / Feeds)
+=======
+# 5. MONITOR DE SINAIS (Reddit / Feeds)
+>>>>>>> d2200f5 (Corrige inicialização da API no SweetSpot bot)
 # ==========================================================
 def fetch_court_signals(subreddit: str = "Pickleball"):
     url = f"https://www.reddit.com/r/{subreddit}/new.json?limit=10"
@@ -105,7 +133,11 @@ def fetch_court_signals(subreddit: str = "Pickleball"):
     return matched_deals
 
 # ==========================================================
+<<<<<<< HEAD
 # 6. TESTE DE EXECUÇÃO LOCAL
+=======
+# 6. TESTE DE EXECUÇÃO
+>>>>>>> d2200f5 (Corrige inicialização da API no SweetSpot bot)
 # ==========================================================
 if __name__ == "__main__":
     print("🎾 SweetSpot Alerts Bot iniciado. Buscando sinais de quadra...")
@@ -117,4 +149,8 @@ if __name__ == "__main__":
         print("\n--- NOVO ALERTA DETECTADO ---")
         copy = generate_court_insider_copy(deal["title"], "Price Drop Alert", deal["category"])
         print(copy)
+<<<<<<< HEAD
         print(f"Link Afiliado: {deal['url']}")
+=======
+        print(f"Link Afiliado: {deal['url']}")
+>>>>>>> d2200f5 (Corrige inicialização da API no SweetSpot bot)
