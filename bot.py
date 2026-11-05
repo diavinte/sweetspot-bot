@@ -1,6 +1,7 @@
 import os
 import re
 import requests
+import tweepy
 from google import genai
 
 # ==========================================================
@@ -8,18 +9,24 @@ from google import genai
 # ==========================================================
 AMAZON_US_TAG = "sweetspotaler-20"  
 
+# Chaves Gemini e Discord
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 
-# TRAVA DE SEGURANÇA: Evita o erro silencioso no GitHub Actions
+# Chaves X (Twitter)
+TWITTER_API_KEY = os.getenv("TWITTER_API_KEY")
+TWITTER_API_SECRET = os.getenv("TWITTER_API_SECRET")
+TWITTER_ACCESS_TOKEN = os.getenv("TWITTER_ACCESS_TOKEN")
+TWITTER_ACCESS_SECRET = os.getenv("TWITTER_ACCESS_SECRET")
+
 if not GEMINI_API_KEY:
-    print("Erro: A chave GEMINI_API_KEY não foi encontrada pelo GitHub Actions!")
+    print("Erro: A chave GEMINI_API_KEY não foi encontrada!")
     exit(1)
 
-# Inicializa o client oficial do Gemini apenas uma vez
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 # ==========================================================
-# 2. RADAR DE PALAVRAS-CHAVE (Pickleball, Padel & Recovery)
+# 2. RADAR DE PALAVRAS-CHAVE
 # ==========================================================
 KEYWORDS_RADAR = {
     "rackets_paddles": [
@@ -39,10 +46,9 @@ KEYWORDS_RADAR = {
 DEAL_TRIGGERS = ["deal", "sale", "clearance", "off", "drop", "price", "code", "coupon", "atl", "$"]
 
 # ==========================================================
-# 3. GERADOR DE LINK AFILIADO (AMAZON US)
+# 3. GERADOR DE LINK AFILIADO
 # ==========================================================
 def build_us_affiliate_link(url: str) -> str:
-    """Extrai o ASIN de qualquer link da Amazon.com e reconstrói limpo com a sua Tag US."""
     asin_match = re.search(r"/(?:dp|gp/product)/([A-Z0-9]{10})", url)
     if asin_match:
         asin = asin_match.group(1)
@@ -50,10 +56,9 @@ def build_us_affiliate_link(url: str) -> str:
     return url
 
 # ==========================================================
-# 4. ENGENHARIA DE PROMPT: COPYWRITER "INSIDER DE QUADRA"
+# 4. ENGENHARIA DE PROMPT
 # ==========================================================
 def generate_court_insider_copy(product_title: str, price_info: str, category: str) -> str:
-    """Usa o Gemini para gerar uma chamada curta em inglês nativo com vocabulário técnico."""
     prompt = f"""
     You are an experienced US Pickleball (4.5+ DUPR) and Padel player who runs a gear price-drop radar called SweetSpot Alerts.
     Write a short, punchy 3-line deal alert in native US English for the following item:
@@ -77,7 +82,7 @@ def generate_court_insider_copy(product_title: str, price_info: str, category: s
     return response.text.strip()
 
 # ==========================================================
-# 5. MONITOR DE SINAIS (Reddit / Feeds)
+# 5. BUSCA DE SINAIS
 # ==========================================================
 def fetch_court_signals(subreddit: str = "Pickleball"):
     url = f"https://www.reddit.com/r/{subreddit}/new.json?limit=10"
@@ -109,7 +114,39 @@ def fetch_court_signals(subreddit: str = "Pickleball"):
     return matched_deals
 
 # ==========================================================
-# 6. TESTE DE EXECUÇÃO
+# 6. FUNÇÕES DE PUBLICAÇÃO (X e Discord)
+# ==========================================================
+def post_to_twitter(text: str):
+    if not all([TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET]):
+        print("Aviso: Chaves do X ausentes. A saltar publicação no X.")
+        return
+    try:
+        twitter_client = tweepy.Client(
+            consumer_key=TWITTER_API_KEY,
+            consumer_secret=TWITTER_API_SECRET,
+            access_token=TWITTER_ACCESS_TOKEN,
+            access_token_secret=TWITTER_ACCESS_SECRET
+        )
+        twitter_client.create_tweet(text=text)
+        print("✅ Alerta publicado no X com sucesso!")
+    except Exception as e:
+        print(f"❌ Erro ao publicar no X: {e}")
+
+def post_to_discord(text: str):
+    if not DISCORD_WEBHOOK_URL:
+        print("Aviso: Webhook do Discord ausente. A saltar publicação no Discord.")
+        return
+    try:
+        response = requests.post(DISCORD_WEBHOOK_URL, json={"content": text})
+        if response.status_code in [200, 204]:
+            print("✅ Alerta publicado no Discord com sucesso!")
+        else:
+            print(f"❌ Erro no Discord. Status: {response.status_code}")
+    except Exception as e:
+        print(f"❌ Erro ao publicar no Discord: {e}")
+
+# ==========================================================
+# 7. EXECUÇÃO PRINCIPAL
 # ==========================================================
 if __name__ == "__main__":
     print("🎾 SweetSpot Alerts Bot iniciado. Buscando sinais de quadra...")
@@ -117,8 +154,15 @@ if __name__ == "__main__":
     
     if not deals:
         print("Nenhum alerta recente encontrado no momento. O radar está ativo.")
+    
     for deal in deals:
         print("\n--- NOVO ALERTA DETECTADO ---")
         copy = generate_court_insider_copy(deal["title"], "Price Drop Alert", deal["category"])
-        print(copy)
-        print(f"Link Afiliado: {deal['url']}")
+        
+        # Junta o texto persuasivo ao link de afiliado
+        final_message = f"{copy}\n\nLink: {deal['url']}"
+        print(final_message)
+        
+        # Dispara para as redes!
+        post_to_twitter(final_message)
+        post_to_discord(final_message)
