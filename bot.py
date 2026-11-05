@@ -26,20 +26,46 @@ if not GEMINI_API_KEY:
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 # ==========================================================
-# 2. RADAR DE PALAVRAS-CHAVE
+# 2. RADAR DE PALAVRAS-CHAVE (Pickleball, Padel & Recovery)
 # ==========================================================
 KEYWORDS_RADAR = {
     "rackets_paddles": [
-        "joola perseus", "six zero", "selkirk", "crbn", 
-        "bullpadel vertex", "bullpadel hack", "nox at10", "raw carbon"
+        # Padel - Top 10 Men (Coello, Tapia, Galan, Chingotto, Lebron...)
+        "head extreme pro", "nox at10 genius", "18k alum", "12k", "adidas metalbone", "metalbone hrd",
+        "bullpadel neuron", "babolat technical viper", "siux electra", "bullpadel hack", "bullpadel vertex", "nox la10",
+        # Padel - Top 10 Women (Triay, Brea, Bea, Josemaria, Ari Sanchez...)
+        "bullpadel elite", "bullpadel vertex w", "bullpadel pearl", "head speed motion", "adidas cross it", "ionic light",
+        # Pickleball (Mantido para não perder o nicho original)
+        "joola perseus", "six zero", "selkirk", "crbn"
     ],
-    "consumables_bulk": [
-        "franklin x-40", "dura fast 40", "100 pack", "36 pack", 
-        "tourna grip", "yonex super grap", "hesacore"
+    "shoes_footwear": [
+        # Premier Padel Pro Shoes
+        "head motion pro", "nox at10 pro", "adidas barricade", "babolat jet premura",
+        "bullpadel hack vibram", "bullpadel vertex shoes", "asics gel resolution padel",
+        "asics solution swift", "adidas defiant speed", "babolat movea", "padel shoes"
+    ],
+    "bags_backpacks": [
+        # Premier Padel Pro Bags
+        "head coello tour", "nox at10 team", "adidas protour", "adidas promatch", 
+        "bullpadel bpp", "babolat rh padel", "padel racket bag", "tour bag", "paletero"
+    ],
+    "consumables_accessories": [
+        # Balls
+        "wilson premier padel", "head pro s", "bullpadel premium pro", "padel balls 3-pack", "case of balls",
+        "franklin x-40", "dura fast 40", # Pickleball balls
+        # Grips & Overgrips
+        "hesacore", "nox custom grip", "tourna grip", "yonex super grap", "wilson pro overgrip", "padel overgrip",
+        # Wristbands & Extras (inclui o Floky usado pelo Tapia)
+        "bullpadel wristband", "adidas wristband", "head wristband", "pascal box", "padel cap", "floky arm sleeve"
+    ],
+    "apparel_clothing": [
+        # Roupas
+        "padel shirt", "padel shorts", "padel skirt", "nox sponsor t-shirt", 
+        "adidas club 3str", "bullpadel wpt", "premier padel official"
     ],
     "recovery_injury_prevention": [
         "theragun", "hyperice", "normatec", "theraband flexbar", 
-        "bauerfeind", "rotator cuff", "tennis elbow", "massage gun"
+        "bauerfeind", "rotator cuff", "tennis elbow", "massage gun", "compression sleeve"
     ]
 }
 
@@ -150,7 +176,13 @@ def post_to_discord(text: str):
 # ==========================================================
 if __name__ == "__main__":
     print("🎾 SweetSpot Alerts Bot iniciado. Buscando sinais de quadra...")
-    deals = fetch_court_signals("Pickleball")
+    
+    # O robô agora faz rondas nos dois subreddits!
+    deals_pickleball = fetch_court_signals("Pickleball")
+    deals_padel = fetch_court_signals("padel")
+    
+    # Junta as ofertas encontradas nas duas comunidades
+    deals = deals_pickleball + deals_padel
     
     if not deals:
         print("Nenhum alerta recente encontrado no momento. O radar está ativo.")
