@@ -31,7 +31,7 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 KEYWORDS_RADAR = {
     "rackets_paddles": [
         # Padel - Top 10 Men (Coello, Tapia, Galan, Chingotto, Lebron...)
-        "head extreme pro", "nox at10 genius", "18k alum", "12k", "adidas metalbone", "metalbone hrd",
+        "head extreme pro", "padel", "nox at10 genius", "18k alum", "12k", "adidas metalbone", "metalbone hrd",
         "bullpadel neuron", "babolat technical viper", "siux electra", "bullpadel hack", "bullpadel vertex", "nox la10",
         # Padel - Top 10 Women (Triay, Brea, Bea, Josemaria, Ari Sanchez...)
         "bullpadel elite", "bullpadel vertex w", "bullpadel pearl", "head speed motion", "adidas cross it", "ionic light",
@@ -69,7 +69,7 @@ KEYWORDS_RADAR = {
     ]
 }
 
-DEAL_TRIGGERS = ["deal", "sale", "clearance", "off", "drop", "price", "code", "coupon", "atl", "$"]
+DEAL_TRIGGERS = ["deal", "padel", "sale", "clearance", "off", "drop", "price", "code", "coupon", "atl", "$"]
 
 # ==========================================================
 # 3. GERADOR DE LINK AFILIADO
