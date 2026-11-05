@@ -1,14 +1,9 @@
 import os
 import re
-<<<<<<< HEAD
-import time
-=======
->>>>>>> d2200f5 (Corrige inicialização da API no SweetSpot bot)
 import requests
 from google import genai
 
-# ==========================================================
-<<<<<<< HEAD
+
 # 1. CONFIGURAÇÕES E CHAVES (Insira sua tag da Amazon US)
 # ==========================================================
 AMAZON_US_TAG = "sweetspotaler-20"  # Substitua pela sua tag oficial da Amazon Associates US
@@ -16,7 +11,7 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 # Inicializa o client oficial do Gemini
-=======
+
 # 1. CONFIGURAÇÕES E CHAVES
 # ==========================================================
 AMAZON_US_TAG = "sweetspotaler-20"  
