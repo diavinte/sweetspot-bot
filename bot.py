@@ -62,7 +62,7 @@ KEYWORDS_RADAR = {
         "theragun", "hyperice", "normatec", "theraband flexbar", 
         "bauerfeind", "rotator cuff", "tennis elbow", "massage gun", "compression sleeve"
     ]
-
+}
 
 DEAL_TRIGGERS = ["deal", "sale", "clearance", "off", "drop", "price", "code", "coupon", "atl", "$", "%", "discount", "promo", "cheap", "amazon", "buy"]
 
