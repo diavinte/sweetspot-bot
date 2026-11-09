@@ -28,20 +28,16 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 # ==========================================================
 # 2. RADAR DE PALAVRAS-CHAVE (Pickleball, Padel & Recovery)
 # ==========================================================
-KEYWORDS_RADAR = {
-    "rackets_paddles": [
-        # Padel - Top 10 Men (Coello, Tapia, Galan, Chingotto, Lebron...)
-        "head extreme pro", "padel", "nox at10 genius", "18k alum", "12k", "adidas metalbone", "metalbone hrd",
-        "bullpadel neuron", "babolat technical viper", "siux electra", "bullpadel hack", "bullpadel vertex", "nox la10",
-        # Padel - Top 10 Women (Triay, Brea, Bea, Josemaria, Ari Sanchez...)
-        "bullpadel elite", "bullpadel vertex w", "bullpadel pearl", "head speed motion", "adidas cross it", "ionic light",
-        # Pickleball (Mantido para não perder o nicho original)
-        "joola perseus", "six zero", "selkirk", "crbn"
+"rackets_paddles": [
+        # Marcas Padel (qualquer menção à marca vai acionar)
+        "bullpadel", "nox", "babolat viper", "adidas metalbone", "head extreme", "siux", "kuikma",
+        # Marcas Pickleball
+        "joola", "selkirk", "crbn", "six zero", "engage"
     ],
     "shoes_footwear": [
         # Premier Padel Pro Shoes
-        "head motion pro", "nox at10 pro", "adidas barricade", "babolat jet premura",
-        "bullpadel hack vibram", "bullpadel vertex shoes", "asics gel resolution padel",
+        "head motion pro", "nox at10", "adidas barricade", "babolat jet premura",
+        "bullpadel hack", "bullpadel vertex", "asics gel resolution padel",
         "asics solution swift", "adidas defiant speed", "babolat movea", "padel shoes"
     ],
     "bags_backpacks": [
@@ -69,7 +65,7 @@ KEYWORDS_RADAR = {
     ]
 }
 
-DEAL_TRIGGERS = ["deal", "padel", "sale", "clearance", "off", "drop", "price", "code", "coupon", "atl", "$"]
+DEAL_TRIGGERS = ["deal", "sale", "clearance", "off", "drop", "price", "code", "coupon", "atl", "$", "%", "discount", "promo", "cheap", "amazon", "buy"]
 
 # ==========================================================
 # 3. GERADOR DE LINK AFILIADO
