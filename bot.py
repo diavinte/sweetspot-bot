@@ -28,10 +28,9 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 # ==========================================================
 # 2. RADAR DE PALAVRAS-CHAVE (Pickleball, Padel & Recovery)
 # ==========================================================
+KEYWORDS_RADAR = {
     "rackets_paddles": [
-        # Marcas Padel (qualquer menção à marca vai acionar)
         "bullpadel", "nox", "babolat viper", "adidas metalbone", "head extreme", "siux", "kuikma",
-        # Marcas Pickleball
         "joola", "selkirk", "crbn", "six zero", "engage"
     ],
     "shoes_footwear": [
