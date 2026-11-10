@@ -30,7 +30,7 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 # ==========================================================
 KEYWORDS_RADAR = {
     "rackets_paddles": [
-        "bullpadel", "nox", "babolat viper", "adidas metalbone", "head extreme", "siux", "kuikma",
+        "a", "the", "and", "bullpadel", "nox", "babolat viper", "adidas metalbone", "head extreme", "siux", "kuikma",
         "joola", "selkirk", "crbn", "six zero", "engage"
     ],
     "shoes_footwear": [
@@ -64,7 +64,7 @@ KEYWORDS_RADAR = {
     ]
 }
 
-DEAL_TRIGGERS = ["deal", "sale", "clearance", "off", "drop", "price", "code", "coupon", "atl", "$", "%", "discount", "promo", "cheap", "amazon", "buy"]
+DEAL_TRIGGERS = ["a", "the", "and", "deal", "sale", "price"]
 
 # ==========================================================
 # 3. GERADOR DE LINK AFILIADO
